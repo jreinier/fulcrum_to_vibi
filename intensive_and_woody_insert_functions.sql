@@ -1,8 +1,3 @@
---consider changing plot_no data type to text from integer which allows for better compatibility with fulcrum export which exports integer fields as text
---change "fsd" to "fds"; maybe trivial but it's the correct way to do it
---change "steams" to "stems"; maybe trivial but it's the correct way to do it
---need to modify species table and reduced fds1 calculation view to take advantage of updated species table from Ohio EPA
---consider adding additional constraints to raw herbaceous and woody data tables to prevent duplicate records
 
 DROP SEQUENCE IF EXISTS vibi_fid_test_seq;
 DROP SEQUENCE IF EXISTS vibi_ground_cover_fid_test_seq;
@@ -42,7 +37,7 @@ CREATE OR REPLACE FUNCTION vibi_plot_info_insert()
 $BODY$
 BEGIN
 
-INSERT INTO plot (plot_no, project_name, plot_name, plot_label, monitoring_event, datetimer, party, plot_not_sampled, commentplot_not_sampled, sampling_quality, tax_accuracy_vascular, tax_accuracy_bryophytes, tax_accuracy_lichens, authority, state, county, quadrangle, local_place_name, landowner, xaxis_bearing_of_plot, enter_gps_location_in_plot, latitude, longitude, total_modules, intensive_modules, plot_configuration, plot_size_for_cover_data_area_ha, estimate_of_per_open_water_entire_site, estimate_of_perunvegetated_ow_entire_site, estimate_per_invasives_entire_site, centerline, oneo_plant, vegclass, vegsubclass, twoo_plant, hgmclass, hgmsubclass, twoo_hgm, hgmgroup, oneo_class_code_mod_natureserve, veg_class_wetlands_only, landform_type, homogeneity, stand_size, drainage, salinity, hydrologic_regime, oneo_disturbance_type, oneo_disturbance_severity, oneo_disturbance_years_ago, oneo_distubance_per_of_plot, oneo_disturbance_description, twoo_disturbance_type, twoo_disturbance_severity, twoo_disturbance_years_ago, twoo_distubance_per_of_plot, twoo_disturbance_description, threeo_disturbance_type, threeo_disturbance_severity, threeo_disturbance_years_ago, threeo_distubance_per_of_plot, threeo_disturbance_description) SELECT plot_no, project_name, project_name_other, plot_label, monitoring_event, date::timestamp with time zone, party, plot_not_sampled, commentplot_not_sampled, sampling_quality, tax_accuracy_vascular, tax_accuracy_bryophytes, tax_accuracy_lichens, authority, state, county, quadrangle, local_place_name, landowner, xaxis_bearing_of_plot::integer, enter_gps_location_in_plot, latitude_1::numeric, longitude_1::numeric, total_modules::integer, intensive_modules::integer, plot_configuration, plot_size_area_in_hectares::numeric, estimate_of_per_open_water_entire_site::numeric, estimate_of_perunvegetated_ow_entire_site::numeric, estimate_per_invasives_entire_site::numeric, centerline::numeric, oneo_plant, vegclass, vegsubclass, twoo_plant, hgmclass, hgmsubclass, twoo_hgm, hgmgroup, oneo_class_code_mod_natureserve, veg_class_wetlands_only, landform_type, homogeneity, stand_size, drainage, salinity, hydrologic_regime, oneo_disturbance_type, oneo_disturbance_severity, oneo_disturbance_years_ago::integer, oneo_distubance_per_of_plot::integer, oneo_disturbance_description, twoo_disturbance_type, twoo_disturbance_severity, twoo_disturbance_years_ago::integer, twoo_distubance_per_of_plot::integer, twoo_disturbance_description, threeo_disturbance_type, threeo_disturbance_severity, threeo_disturbance_years_ago::integer, threeo_distubance_per_of_plot::integer, threeo_disturbance_description FROM  vibi_intensive
+INSERT INTO plot (plot_no, project_name, plot_name, plot_label, monitoring_event, datetimer, party, plot_not_sampled, commentplot_not_sampled, sampling_quality, tax_accuracy_vascular, tax_accuracy_bryophytes, tax_accuracy_lichens, authority, state, county, quadrangle, local_place_name, landowner, xaxis_bearing_of_plot, enter_gps_location_in_plot, latitude, longitude, total_modules, intensive_modules, plot_configuration, plot_size_for_cover_data_area_ha, estimate_of_per_open_water_entire_site, estimate_of_perunvegetated_ow_entire_site, estimate_per_invasives_entire_site, centerline, oneo_plant, vegclass, vegsubclass, twoo_plant, hgmclass, hgmsubclass, twoo_hgm, hgmgroup, oneo_class_code_mod_natureserve, landform_type, homogeneity, stand_size, drainage, salinity, hydrologic_regime, oneo_disturbance_type, oneo_disturbance_severity, oneo_disturbance_years_ago, oneo_distubance_per_of_plot, oneo_disturbance_description, twoo_disturbance_type, twoo_disturbance_severity, twoo_disturbance_years_ago, twoo_distubance_per_of_plot, twoo_disturbance_description, threeo_disturbance_type, threeo_disturbance_severity, threeo_disturbance_years_ago, threeo_distubance_per_of_plot, threeo_disturbance_description) SELECT plot_no, project_name, project_name_other, plot_label, monitoring_event, date::timestamp with time zone, party, plot_not_sampled, commentplot_not_sampled, sampling_quality, tax_accuracy_vascular, tax_accuracy_bryophytes, tax_accuracy_lichens, authority, state, county, quadrangle, local_place_name, landowner, xaxis_bearing_of_plot::integer, enter_gps_location_in_plot, latitude_1::numeric, longitude_1::numeric, total_modules::integer, intensive_modules::integer, plot_configuration, plot_size_area_in_hectares::numeric, estimate_of_per_open_water_entire_site::numeric, estimate_of_perunvegetated_ow_entire_site::numeric, estimate_per_invasives_entire_site::numeric, centerline::numeric, oneo_plant, vegclass, vegsubclass, twoo_plant, hgmclass, hgmsubclass, twoo_hgm, hgmgroup, oneo_class_code_mod_natureserve, landform_type, homogeneity, stand_size, drainage, salinity, hydrologic_regime, oneo_disturbance_type, oneo_disturbance_severity, oneo_disturbance_years_ago::integer, oneo_distubance_per_of_plot::integer, oneo_disturbance_description, twoo_disturbance_type, twoo_disturbance_severity, twoo_disturbance_years_ago::integer, twoo_distubance_per_of_plot::integer, twoo_disturbance_description, threeo_disturbance_type, threeo_disturbance_severity, threeo_disturbance_years_ago::integer, threeo_distubance_per_of_plot::integer, threeo_disturbance_description FROM  vibi_intensive
 WHERE NOT EXISTS
 (
 	SELECT 1 FROM plot WHERE plot_no = vibi_intensive.plot_no
@@ -72,8 +67,19 @@ BEGIN
 	SELECT 1 FROM plot_module_woody_raw WHERE plot_no = vibi_fulcrum_woody_joined.plot_no
 	)),
 	
-	
 ins1 AS (INSERT INTO plot_module_herbaceous (plot_no, module_id, corner, depth, species, cover_class_code) SELECT plot_no, herbaceous_module::integer, 
+
+CASE WHEN corner_1_depth IS NOT NULL THEN 1
+ELSE NULL
+END 
+AS corner, corner_1_depth::integer,
+
+herbaceous_species, cover_code::integer 
+
+FROM vibi_fulcrum_joined_new_records WHERE corner_1_depth IS NOT NULL),
+
+	
+ins2 AS (INSERT INTO plot_module_herbaceous (plot_no, module_id, corner, depth, species, cover_class_code) SELECT plot_no, herbaceous_module::integer, 
 
 CASE WHEN corner_2_depth IS NOT NULL THEN 2
 ELSE NULL
@@ -84,8 +90,19 @@ herbaceous_species, cover_code::integer
 
 FROM vibi_fulcrum_joined_new_records WHERE corner_2_depth IS NOT NULL),
 
+ins3 AS (INSERT INTO plot_module_herbaceous (plot_no, module_id, corner, depth, species, cover_class_code) SELECT plot_no, herbaceous_module::integer, 
 
-ins2 AS (INSERT INTO plot_module_herbaceous (plot_no, module_id, corner, depth, species, cover_class_code) SELECT plot_no, herbaceous_module::integer, 
+CASE WHEN corner_3_depth IS NOT NULL THEN 3
+ELSE NULL
+END 
+AS corner, corner_3_depth::integer,
+
+herbaceous_species, cover_code::integer 
+
+FROM vibi_fulcrum_joined_new_records WHERE corner_3_depth IS NOT NULL),
+
+
+ins4 AS (INSERT INTO plot_module_herbaceous (plot_no, module_id, corner, depth, species, cover_class_code) SELECT plot_no, herbaceous_module::integer, 
 
 CASE WHEN corner_4_depth IS NOT NULL THEN 4
 ELSE NULL
@@ -97,7 +114,7 @@ herbaceous_species, cover_code::integer
 FROM vibi_fulcrum_joined_new_records WHERE  corner_4_depth IS NOT NULL),
 
 
-ins3 AS (INSERT INTO plot_module_herbaceous_info (plot_no, module_id, corner, depth, info, cover_class_code) SELECT plot_no, herbaceous_module::integer,
+ins5 AS (INSERT INTO plot_module_herbaceous_info (plot_no, module_id, corner, depth, info, cover_class_code) SELECT plot_no, herbaceous_module::integer,
 NULL::integer AS corner, 1::integer AS depth, 
 
 CASE WHEN  bare_ground_cover IS NOT NULL THEN 'bare ground cover'
@@ -108,7 +125,8 @@ AS info, bare_ground_cover::integer FROM vibi_fulcrum_joined_new_records WHERE N
 	SELECT 1 FROM plot_module_herbaceous_info WHERE plot_no = vibi_fulcrum_joined_new_records.plot_no
 	) GROUP BY plot_no, herbaceous_module, corner, depth, bare_ground_cover),
 	
-ins4 AS (INSERT INTO plot_module_herbaceous_info (plot_no, module_id, corner, depth, info, cover_class_code) SELECT plot_no, herbaceous_module::integer,
+	
+ins6 AS (INSERT INTO plot_module_herbaceous_info (plot_no, module_id, corner, depth, info, cover_class_code) SELECT plot_no, herbaceous_module::integer,
 NULL::integer AS corner, 1::integer AS depth,
 
 CASE WHEN  litter_cover IS NOT NULL THEN 'litter cover'
@@ -119,7 +137,8 @@ AS info, litter_cover::integer FROM vibi_fulcrum_joined_new_records WHERE NOT EX
 	SELECT 1 FROM plot_module_herbaceous_info WHERE plot_no = vibi_fulcrum_joined_new_records.plot_no
 	) GROUP BY plot_no, herbaceous_module, corner, depth, litter_cover),
 	
-ins5 AS (INSERT INTO plot_module_herbaceous_info (plot_no, module_id, corner, depth, info, cover_class_code) SELECT plot_no, herbaceous_module::integer,
+	
+ins7 AS (INSERT INTO plot_module_herbaceous_info (plot_no, module_id, corner, depth, info, cover_class_code) SELECT plot_no, herbaceous_module::integer,
 NULL::integer AS corner, 1::integer AS depth,
 
 CASE WHEN  open_water_cover IS NOT NULL THEN 'open water cover'
@@ -129,6 +148,7 @@ AS info, open_water_cover::integer FROM vibi_fulcrum_joined_new_records WHERE NO
 (
 	SELECT 1 FROM plot_module_herbaceous_info WHERE plot_no = vibi_fulcrum_joined_new_records.plot_no
 	) GROUP BY plot_no, herbaceous_module, corner, depth, open_water_cover)
+	
 
 INSERT INTO plot_module_herbaceous_info (plot_no, module_id, corner, depth, info, cover_class_code) SELECT plot_no, herbaceous_module::integer,
 NULL::integer AS corner, 1::integer AS depth,
@@ -461,4 +481,4 @@ END $BODY$
 ALTER FUNCTION vibi_woody_modules_insert()
   OWNER TO postgres;
   
-  CREATE TRIGGER vibi_woody_modules_insert_trigger AFTER INSERT ON vibi_woody FOR EACH STATEMENT EXECUTE PROCEDURE vibi_woody_modules_insert();  
+  CREATE TRIGGER vibi_woody_modules_insert_trigger AFTER INSERT ON vibi_woody FOR EACH STATEMENT EXECUTE PROCEDURE vibi_woody_modules_insert();    
