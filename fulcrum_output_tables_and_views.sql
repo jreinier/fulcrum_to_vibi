@@ -245,7 +245,12 @@ CREATE TABLE IF NOT EXISTS "vibi_woody_woody_species_list_module_and_count" (
   "40cm_dbh2" text,
   "40cm_dbh3" text,
   "40cm_dbh4" text,
-  "40cm_dbh5" text
+  "40cm_dbh5" text,
+  "voucher_number" text,
+  "comment" text,
+  "deer_browse_intensity" text,
+  "_flowering" text,
+  "_fruiting" text
 );
 
 
@@ -256,4 +261,4 @@ LEFT JOIN  vibi_intensive c ON c.fulcrum_id = a.fulcrum_record_id;
 
 CREATE OR REPLACE VIEW vibi_fulcrum_woody_joined  AS SELECT a.*, b.woody_species, c.plot_no FROM vibi_woody_woody_species_list_module_and_count a 
 LEFT JOIN vibi_woody_woody_species_list b ON b.fulcrum_id = a.fulcrum_parent_id
-LEFT JOIN  vibi_woody c ON c.fulcrum_id = a.fulcrum_record_id;   
+LEFT JOIN  vibi_woody c ON c.fulcrum_id = a.fulcrum_record_id;      
