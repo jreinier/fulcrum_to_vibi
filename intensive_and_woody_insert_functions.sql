@@ -1,3 +1,4 @@
+
 DROP SEQUENCE IF EXISTS vibi_fid_test_seq;
 DROP SEQUENCE IF EXISTS vibi_ground_cover_fid_test_seq;
 DROP SEQUENCE IF EXISTS vibi_woody_fid_test_seq;
@@ -146,10 +147,10 @@ END
 AS info, open_water_cover::integer FROM vibi_fulcrum_joined_new_records WHERE NOT EXISTS
 (
 	SELECT 1 FROM plot_module_herbaceous_info WHERE plot_no = vibi_fulcrum_joined_new_records.plot_no
-	) GROUP BY plot_no, herbaceous_module, corner, depth, open_water_cover)
+	) GROUP BY plot_no, herbaceous_module, corner, depth, open_water_cover),
 	
 
-INSERT INTO plot_module_herbaceous_info (plot_no, module_id, corner, depth, info, cover_class_code) SELECT plot_no, herbaceous_module::integer,
+ins8 AS (INSERT INTO plot_module_herbaceous_info (plot_no, module_id, corner, depth, info, cover_class_code) SELECT plot_no, herbaceous_module::integer,
 NULL::integer AS corner, 1::integer AS depth,
 
 CASE WHEN  unvegetated_open_water_cover IS NOT NULL THEN 'unvegetated open water cover'
@@ -158,7 +159,15 @@ END
 AS info, unvegetated_open_water_cover::integer FROM vibi_fulcrum_joined_new_records WHERE NOT EXISTS
 (
 	SELECT 1 FROM plot_module_herbaceous_info WHERE plot_no = vibi_fulcrum_joined_new_records.plot_no
-	) GROUP BY plot_no, herbaceous_module, corner, depth, unvegetated_open_water_cover
+	) GROUP BY plot_no, herbaceous_module, corner, depth, unvegetated_open_water_cover)
+	
+INSERT INTO herbaceous_species_misc_info (species, plot_no, module_id, voucher_no, comment, browse_intensity, percent_flowering, percent_fruiting) SELECT herbaceous_species, plot_no,
+herbaceous_module::integer, voucher_number, comment, deer_browse_intensity, _flowering, _fruiting
+
+FROM vibi_fulcrum_joined_new_records WHERE NOT EXISTS
+(
+	SELECT 1 FROM herbaceous_species_misc_info WHERE plot_no = vibi_fulcrum_joined_new_records.plot_no
+	) AND voucher_number IS NOT NULL OR comment IS NOT NULL OR deer_browse_intensity IS NOT NULL OR _flowering IS NOT NULL OR _fruiting IS NOT NULL GROUP BY plot_no, herbaceous_species, herbaceous_module, voucher_number, comment, deer_browse_intensity, _flowering, _fruiting
 	
 ;
 	
@@ -480,4 +489,4 @@ END $BODY$
 ALTER FUNCTION vibi_woody_modules_insert()
   OWNER TO postgres;
   
-  CREATE TRIGGER vibi_woody_modules_insert_trigger AFTER INSERT ON vibi_woody FOR EACH STATEMENT EXECUTE PROCEDURE vibi_woody_modules_insert();    
+  CREATE TRIGGER vibi_woody_modules_insert_trigger AFTER INSERT ON vibi_woody FOR EACH STATEMENT EXECUTE PROCEDURE vibi_woody_modules_insert();      
