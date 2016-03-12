@@ -261,4 +261,10 @@ LEFT JOIN  vibi_intensive c ON c.fulcrum_id = a.fulcrum_record_id;
 
 CREATE OR REPLACE VIEW vibi_fulcrum_woody_joined  AS SELECT a.*, b.woody_species, c.plot_no FROM vibi_woody_woody_species_list_module_and_count a 
 LEFT JOIN vibi_woody_woody_species_list b ON b.fulcrum_id = a.fulcrum_parent_id
-LEFT JOIN  vibi_woody c ON c.fulcrum_id = a.fulcrum_record_id;      
+LEFT JOIN  vibi_woody c ON c.fulcrum_id = a.fulcrum_record_id;
+
+
+CREATE OR REPLACE VIEW vibi_fulcrum_soil_joined  AS SELECT  c.plot_no, c.sample_depth_inches, b.depth_to_layer_cm, b.matrix_hue, b.matrix_value, b.matrix_chroma, a.redox_hue, a.redox_value, a.redox_chroma, a.redox_percent, a.redox_type, a.redox_location, b.soil_texture, b.remarks, a.fulcrum_id, a.fulcrum_parent_id, a.fulcrum_record_id, a.version, a.latitude, a.longitude, a.geometry, a.created_at, a.updated_at, a.created_by, a.updated_by FROM
+vibi_physical_soil_layers_redox_features a
+LEFT JOIN vibi_physical_soil_layers b ON b.fulcrum_id = a.fulcrum_parent_id
+LEFT JOIN vibi_physical c ON c.fulcrum_id = a.fulcrum_record_id;      
