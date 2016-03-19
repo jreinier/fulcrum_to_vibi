@@ -1,3 +1,4 @@
+
 DROP SEQUENCE IF EXISTS vibi_fid_test_seq;
 DROP SEQUENCE IF EXISTS vibi_ground_cover_fid_test_seq;
 DROP SEQUENCE IF EXISTS vibi_woody_fid_test_seq;
@@ -36,7 +37,53 @@ CREATE OR REPLACE FUNCTION vibi_plot_info_insert()
 $BODY$
 BEGIN
 
-INSERT INTO plot (plot_no, project_name, plot_name, project_label, monitoring_event, datetimer, party, plot_not_sampled, commentplot_not_sampled, sampling_quality, state, county, quadrangle, local_place_name, landowner, xaxis_bearing_of_plot, enter_gps_location_in_plot, latitude, longitude, total_modules, intensive_modules, plot_configuration, plot_size_for_cover_data_area_ha, estimate_of_per_open_water_entire_site, estimate_of_perunvegetated_ow_entire_site, estimate_per_invasives_entire_site, centerline, oneo_plant, vegclass, vegsubclass, twoo_plant, oneo_class_code_mod_natureserve, cowardin_classification, cowardin_water_regime, cowardin_special_modifier, cowardin_special_modifier_other, landscape_position, inland_landform, water_flow_path, llww_modifiers, llww_modifiers_other, landform_type, homogeneity, stand_size, drainage, salinity, hydrologic_regime, oneo_disturbance_type, oneo_disturbance_severity, oneo_disturbance_years_ago, oneo_distubance_per_of_plot, oneo_disturbance_description, twoo_disturbance_type, twoo_disturbance_severity, twoo_disturbance_years_ago, twoo_distubance_per_of_plot, twoo_disturbance_description, threeo_disturbance_type, threeo_disturbance_severity, threeo_disturbance_years_ago, threeo_distubance_per_of_plot, threeo_disturbance_description) SELECT plot_no, project_name, project_name_other, project_label, monitoring_event, date::timestamp with time zone, party, plot_not_sampled, commentplot_not_sampled, sampling_quality, state, county, quadrangle, local_place_name, landowner, xaxis_bearing_of_plot::integer, enter_gps_location_in_plot, latitude_1::numeric, longitude_1::numeric, total_modules::integer, intensive_modules::integer, plot_configuration, plot_size_area_in_hectares::numeric, estimate_of_per_open_water_entire_site::numeric, estimate_of_perunvegetated_ow_entire_site::numeric, estimate_per_invasives_entire_site::numeric, centerline::numeric, oneo_plant, vegclass, vegsubclass, twoo_plant, oneo_class_code_mod_natureserve, cowardin_classification, cowardin_water_regime, cowardin_special_modifier, cowardin_special_modifier_other, landscape_position, inland_landform, water_flow_path, llww_modifiers, llww_modifiers_other, landform_type, homogeneity, stand_size, drainage, salinity, hydrologic_regime, oneo_disturbance_type, oneo_disturbance_severity, oneo_disturbance_years_ago::integer, oneo_distubance_per_of_plot::integer, oneo_disturbance_description, twoo_disturbance_type, twoo_disturbance_severity, twoo_disturbance_years_ago::integer, twoo_distubance_per_of_plot::integer, twoo_disturbance_description, threeo_disturbance_type, threeo_disturbance_severity, threeo_disturbance_years_ago::integer, threeo_distubance_per_of_plot::integer, threeo_disturbance_description FROM  vibi_intensive
+INSERT INTO plot (plot_no, project_name, plot_name, project_label, monitoring_event, datetimer, party, plot_not_sampled, commentplot_not_sampled, sampling_quality, state, county, quadrangle, local_place_name, landowner, xaxis_bearing_of_plot, enter_gps_location_in_plot, latitude, longitude, total_modules, intensive_modules, plot_configuration, plot_configuration_other, plot_size_for_cover_data_area_ha, estimate_of_per_open_water_entire_site, estimate_of_per_unvegetated_ow_entire_site, estimate_per_invasives_entire_site, centerline, vegclass, vegsubclass, leap_landcover_classification, cowardin_classification, cowardin_water_regime, cowardin_special_modifier, cowardin_special_modifier_other, landscape_position, inland_landform, water_flow_path, llww_modifiers, llww_modifiers_other, landform_type, landform_type_other, homogeneity, stand_size, drainage, salinity, hydrologic_regime, oneo_disturbance_type, oneo_disturbance_severity, oneo_disturbance_years_ago, oneo_distubance_per_of_plot, oneo_disturbance_description, twoo_disturbance_type, twoo_disturbance_severity, twoo_disturbance_years_ago, twoo_distubance_per_of_plot, twoo_disturbance_description, threeo_disturbance_type, threeo_disturbance_severity, threeo_disturbance_years_ago, threeo_distubance_per_of_plot, threeo_disturbance_description) SELECT plot_no, project_name, project_name_other, project_label, monitoring_event, date::timestamp with time zone, party, plot_not_sampled, commentplot_not_sampled, sampling_quality, state, county, quadrangle, local_place_name, landowner, xaxis_bearing_of_plot::integer, enter_gps_location_in_plot, latitude_1::numeric, longitude_1::numeric, total_modules::integer, intensive_modules::integer, plot_configuration, plot_configuration_other, plot_size_area_in_hectares::numeric, estimate_of_per_open_water_entire_site::numeric, estimate_of_per_unvegetated_ow_entire_site::numeric, estimate_per_invasives_entire_site::numeric, centerline::numeric, vegclass, vegsubclass, 
+CASE 
+WHEN leap_habitat_classification LIKE  '%Dry Oak Forest and Woodland%' THEN 'IA1 - Dry Oak Forest and Woodland'
+WHEN leap_habitat_classification LIKE  '%Dry-Mesic Oak Forest and Woodland%' THEN 'IA2 - Dry-Mesic Oak Forest and Woodland'
+WHEN leap_habitat_classification LIKE  '%Appalachian (Hemlock) Hardwood Forest%' THEN 'IB1 - Appalachian (Hemlock) Hardwood Forest'
+WHEN leap_habitat_classification LIKE  '%Hemlock Ravine%' THEN 'IB2 - Hemlock Ravine'
+WHEN leap_habitat_classification LIKE  '%Beech-Maple Forest%' THEN 'IC1 - Beech-Maple Forest'
+WHEN leap_habitat_classification LIKE  '%Mixed Hardwood Forest (red oak, tuliptree, sugar maple, little to no beech)%' THEN 'IC2 - Mixed Hardwood Forest'
+WHEN leap_habitat_classification LIKE  '%Rich Mesophytic Forest (New York)%' THEN 'IC3 - Rich Mesophytic Forest (New York)'
+WHEN leap_habitat_classification LIKE  '%Oak Savanna/Barrens%' THEN 'ID - Oak Savanna/Barrens'
+WHEN leap_habitat_classification LIKE  '%Non-Calcareous Cliff and Talus%' THEN 'IE1 - Non-Calcareous Cliff and Talus'
+WHEN leap_habitat_classification LIKE  '%Calcareous Cliff and Talus%' THEN 'IE2 - Calcareous Cliff and Talus'
+WHEN leap_habitat_classification LIKE  '%Great Lakes Rocky Shore and Cliff (Alkaline)%' THEN 'IF - Great Lakes Rocky Shore and Cliff (Alkaline)'
+WHEN leap_habitat_classification LIKE  '%Low Gradient (>3rd order streams and rivers)%' THEN 'IIA1 - Floodplain Forest - Low Gradient'
+WHEN leap_habitat_classification LIKE  '%High Gradient (1st and 2nd order streams)%' THEN 'IIA2 - Floodplain Forest - High Gradient'
+WHEN leap_habitat_classification LIKE  '%Emergent Herbaceous (Marsh)%' THEN 'IIB - Floodplain Emergent Herbaceous (Marsh)'
+WHEN leap_habitat_classification LIKE  '%Scrub-Shrub/Meadow%' THEN 'IIC - Floodplain Scrub-Shrub/Meadow'
+WHEN leap_habitat_classification LIKE  '%Forested Flat (including vernal pools)%' THEN 'IIIA1 - Non-Floodplain Wet Forest (including vernal pools)'
+WHEN leap_habitat_classification LIKE  '%Forest Seeps%' THEN 'IIIA2 - Forest Seeps'
+WHEN leap_habitat_classification LIKE  '%Bog Forest (organic soil)%' THEN 'IIIA3 - Bog Forest (organic soil)'
+WHEN leap_habitat_classification LIKE  '%Coastal Marsh (lakeshore)%' THEN 'IIIB1a - Coastal Marsh (lakeshore)'
+WHEN leap_habitat_classification LIKE  '%Inland Freshwater Marsh%' THEN 'IIIB1b - Inland Freshwater Marsh'
+WHEN leap_habitat_classification LIKE  '%Bog%' THEN 'IIIC1 - Bog'
+WHEN leap_habitat_classification LIKE  '%Rich Fen%' THEN 'IIIC2a - Rich Fen'
+WHEN leap_habitat_classification LIKE  '%Poor Fen%' THEN 'IIIC2b - Poor Fen'
+WHEN leap_habitat_classification LIKE  '%Other Shrub/Meadow%' THEN 'IIIC3 - Other Shrub/Meadow'
+WHEN leap_habitat_classification LIKE  '%Beach%' THEN 'IVA1 - Beach'
+WHEN leap_habitat_classification LIKE  '%Wooded Dune%' THEN 'IVA2 - Wooded Dune'
+WHEN leap_habitat_classification LIKE  '%Submersed Bed%' THEN 'IVB1 - Riverine Submersed Bed'
+WHEN leap_habitat_classification LIKE  '%Sand/Gravel Bar%' THEN 'IVB2 - Riverine Sand/Gravel Bar'
+WHEN leap_habitat_classification LIKE  '%Active Farming (Cultivated Crops and Irrigated Agriculture)%' THEN 'VA1 - Active Farming'
+WHEN leap_habitat_classification LIKE  '%Pasture (Pasture/Hay)%' THEN 'VA2 - Pasture'
+WHEN leap_habitat_classification LIKE  '%Old Field (Ruderal Upland - Old Field)%' THEN 'VA3 - Old Field'
+WHEN leap_habitat_classification LIKE  '%Post Clearcut Communities (Successional Shrub/Scrub)%' THEN 'VA4 - Post Clearcut Communities'
+WHEN leap_habitat_classification LIKE  '%Tree Plantations%' THEN 'VA5 - Tree Plantations'
+WHEN leap_habitat_classification LIKE  '%Atypical Successional Woody Communities (Ruderal forest)%' THEN 'VB - Atypical Successional Woody Communities'
+WHEN leap_habitat_classification LIKE  '%Disturbed Soil Communities (Quarries/Strip Mines/Gravel Pits)%' THEN 'VC - Disturbed Soil Communities'
+WHEN leap_habitat_classification LIKE  '%Pond and Reservoir (Open water)%' THEN 'VD - Pond and Reservoir'
+WHEN leap_habitat_classification LIKE  '%Human Structures (oil/gas wells)%' THEN 'VE - Human Structures'
+WHEN leap_habitat_classification LIKE  '%Open Space%' THEN 'VF1 - Open Space'
+WHEN leap_habitat_classification LIKE  '%Low Intensity%' THEN 'VF2 - Developed (Low Intensity)'
+WHEN leap_habitat_classification LIKE  '%Medium Intensity%' THEN 'VF3 - Developed (Medium Intensity)'
+WHEN leap_habitat_classification LIKE  '%High Intensity%' THEN 'VF4 - Developed (High Intensity)'
+ELSE NULL
+END
+AS leap_habitat_classification,
+cowardin_classification, cowardin_water_regime, cowardin_special_modifier, cowardin_special_modifier_other, landscape_position, inland_landform, water_flow_path, llww_modifiers, llww_modifiers_other, landform_type, landform_type_other, homogeneity, stand_size, drainage, salinity, hydrologic_regime, oneo_disturbance_type, oneo_disturbance_severity, oneo_disturbance_years_ago::integer, oneo_distubance_per_of_plot::integer, oneo_disturbance_description, twoo_disturbance_type, twoo_disturbance_severity, twoo_disturbance_years_ago::integer, twoo_distubance_per_of_plot::integer, twoo_disturbance_description, threeo_disturbance_type, threeo_disturbance_severity, threeo_disturbance_years_ago::integer, threeo_distubance_per_of_plot::integer, threeo_disturbance_description FROM  vibi_intensive
 WHERE NOT EXISTS
 (
 	SELECT 1 FROM plot WHERE plot_no = vibi_intensive.plot_no
@@ -189,7 +236,7 @@ BEGIN
 	SELECT 1 FROM plot_module_woody_raw WHERE plot_no = vibi_fulcrum_woody_joined.plot_no
 	)),
 
-ins1 AS (INSERT INTO plot_module_woody_raw (plot_no, module_id, species, dbh_class, dbh_class_index, count) SELECT plot_no, module_number::integer AS module_id,
+ins1 AS (INSERT INTO plot_module_woody_raw (plot_no, sub, module_id, species, dbh_class, dbh_class_index, count) SELECT plot_no, sub_or_super_sample::numeric, module_number::integer AS module_id,
 woody_species,
 
 CASE WHEN  'shrub_clump_count' IS NOT NULL THEN 'shrub clump'
@@ -209,7 +256,7 @@ FROM vibi_fulcrum_woody_joined_new_records WHERE NOT EXISTS
 	
 
 	
-ins2 AS (INSERT INTO plot_module_woody_raw (plot_no, module_id, species, dbh_class, dbh_class_index, count) SELECT plot_no, module_number::integer AS module_id,
+ins2 AS (INSERT INTO plot_module_woody_raw (plot_no, sub, module_id, species, dbh_class, dbh_class_index, count) SELECT plot_no, sub_or_super_sample::numeric, module_number::integer AS module_id,
 woody_species,
 
 CASE WHEN  '0_1cm_count' IS NOT NULL THEN '0-<1cm'
@@ -227,7 +274,7 @@ FROM vibi_fulcrum_woody_joined_new_records WHERE NOT EXISTS
 	SELECT 1 FROM plot_module_woody_raw WHERE plot_no = vibi_fulcrum_woody_joined_new_records.plot_no AND species = vibi_fulcrum_woody_joined_new_records.woody_species AND module_id = vibi_fulcrum_woody_joined_new_records.module_number::integer
 	AND dbh_class = '0-<1cm') AND "0_1cm_count" IS NOT NULL),
 	
-ins3 AS (INSERT INTO plot_module_woody_raw (plot_no, module_id, species, dbh_class, dbh_class_index, count) SELECT plot_no, module_number::integer AS module_id,
+ins3 AS (INSERT INTO plot_module_woody_raw (plot_no, sub, module_id, species, dbh_class, dbh_class_index, count) SELECT plot_no, sub_or_super_sample::numeric, module_number::integer AS module_id,
 woody_species,
 
 CASE WHEN  '1_25cm_count' IS NOT NULL THEN '1-<2.5cm'
@@ -245,7 +292,7 @@ FROM vibi_fulcrum_woody_joined_new_records WHERE NOT EXISTS
 	SELECT 1 FROM plot_module_woody_raw WHERE plot_no = vibi_fulcrum_woody_joined_new_records.plot_no AND species = vibi_fulcrum_woody_joined_new_records.woody_species AND module_id = vibi_fulcrum_woody_joined_new_records.module_number::integer
 	AND dbh_class = '1-<2.5cm') AND "1_25cm_count" IS NOT NULL),
 	
-ins4 AS (INSERT INTO plot_module_woody_raw (plot_no, module_id, species, dbh_class, dbh_class_index, count) SELECT plot_no, module_number::integer AS module_id,
+ins4 AS (INSERT INTO plot_module_woody_raw (plot_no, sub, module_id, species, dbh_class, dbh_class_index, count) SELECT plot_no, sub_or_super_sample::numeric, module_number::integer AS module_id,
 woody_species,
 
 CASE WHEN  '25_5cm_count' IS NOT NULL THEN '2.5-<5cm'
@@ -263,7 +310,7 @@ FROM vibi_fulcrum_woody_joined_new_records WHERE NOT EXISTS
 	SELECT 1 FROM plot_module_woody_raw WHERE plot_no = vibi_fulcrum_woody_joined_new_records.plot_no AND species = vibi_fulcrum_woody_joined_new_records.woody_species AND module_id = vibi_fulcrum_woody_joined_new_records.module_number::integer
 	AND dbh_class = '2.5-<5cm') AND "25_5cm_count" IS NOT NULL),
 	
-ins5 AS (INSERT INTO plot_module_woody_raw (plot_no, module_id, species, dbh_class, dbh_class_index, count) SELECT plot_no, module_number::integer AS module_id,
+ins5 AS (INSERT INTO plot_module_woody_raw (plot_no, sub, module_id, species, dbh_class, dbh_class_index, count) SELECT plot_no, sub_or_super_sample::numeric, module_number::integer AS module_id,
 woody_species,
 
 CASE WHEN  '5_10cm_count' IS NOT NULL THEN '5-<10cm'
@@ -281,7 +328,7 @@ FROM vibi_fulcrum_woody_joined_new_records WHERE NOT EXISTS
 	SELECT 1 FROM plot_module_woody_raw WHERE plot_no = vibi_fulcrum_woody_joined_new_records.plot_no AND species = vibi_fulcrum_woody_joined_new_records.woody_species AND module_id = vibi_fulcrum_woody_joined_new_records.module_number::integer
 	AND dbh_class = '5-<10cm') AND "5_10cm_count" IS NOT NULL),
 	
-ins6 AS (INSERT INTO plot_module_woody_raw (plot_no, module_id, species, dbh_class, dbh_class_index, count) SELECT plot_no, module_number::integer AS module_id,
+ins6 AS (INSERT INTO plot_module_woody_raw (plot_no, sub, module_id, species, dbh_class, dbh_class_index, count) SELECT plot_no, sub_or_super_sample::numeric, module_number::integer AS module_id,
 woody_species,
 
 CASE WHEN  '10_15cm_count' IS NOT NULL THEN '10-<15cm'
@@ -299,7 +346,7 @@ FROM vibi_fulcrum_woody_joined_new_records WHERE NOT EXISTS
 	SELECT 1 FROM plot_module_woody_raw WHERE plot_no = vibi_fulcrum_woody_joined_new_records.plot_no AND species = vibi_fulcrum_woody_joined_new_records.woody_species AND module_id = vibi_fulcrum_woody_joined_new_records.module_number::integer
 	AND dbh_class = '10-<15cm') AND "10_15cm_count" IS NOT NULL),
 	
-ins7 AS (INSERT INTO plot_module_woody_raw (plot_no, module_id, species, dbh_class, dbh_class_index, count) SELECT plot_no, module_number::integer AS module_id,
+ins7 AS (INSERT INTO plot_module_woody_raw (plot_no, sub, module_id, species, dbh_class, dbh_class_index, count) SELECT plot_no, sub_or_super_sample::numeric, module_number::integer AS module_id,
 woody_species,
 
 CASE WHEN  '15_20cm_count' IS NOT NULL THEN '15-<20cm'
@@ -317,7 +364,7 @@ FROM vibi_fulcrum_woody_joined_new_records WHERE NOT EXISTS
 	SELECT 1 FROM plot_module_woody_raw WHERE plot_no = vibi_fulcrum_woody_joined_new_records.plot_no AND species = vibi_fulcrum_woody_joined_new_records.woody_species AND module_id = vibi_fulcrum_woody_joined_new_records.module_number::integer
 	AND dbh_class = '15<20cm') AND "15_20cm_count" IS NOT NULL),
 	
-ins8 AS (INSERT INTO plot_module_woody_raw (plot_no, module_id, species, dbh_class, dbh_class_index, count) SELECT plot_no, module_number::integer AS module_id,
+ins8 AS (INSERT INTO plot_module_woody_raw (plot_no, sub, module_id, species, dbh_class, dbh_class_index, count) SELECT plot_no, sub_or_super_sample::numeric, module_number::integer AS module_id,
 woody_species,
 
 CASE WHEN  '20_25cm_count' IS NOT NULL THEN '20-<25cm'
@@ -335,7 +382,7 @@ FROM vibi_fulcrum_woody_joined_new_records WHERE NOT EXISTS
 	SELECT 1 FROM plot_module_woody_raw WHERE plot_no = vibi_fulcrum_woody_joined_new_records.plot_no AND species = vibi_fulcrum_woody_joined_new_records.woody_species AND module_id = vibi_fulcrum_woody_joined_new_records.module_number::integer
 	AND dbh_class = '20-<25cm') AND "20_25cm_count" IS NOT NULL),
 	
-ins9 AS (INSERT INTO plot_module_woody_raw (plot_no, module_id, species, dbh_class, dbh_class_index, count) SELECT plot_no, module_number::integer AS module_id,
+ins9 AS (INSERT INTO plot_module_woody_raw (plot_no, sub, module_id, species, dbh_class, dbh_class_index, count) SELECT plot_no, sub_or_super_sample::numeric, module_number::integer AS module_id,
 woody_species,
 
 CASE WHEN  '25_30cm_count' IS NOT NULL THEN '25-<30cm'
@@ -353,7 +400,7 @@ FROM vibi_fulcrum_woody_joined_new_records WHERE NOT EXISTS
 	SELECT 1 FROM plot_module_woody_raw WHERE plot_no = vibi_fulcrum_woody_joined_new_records.plot_no AND species = vibi_fulcrum_woody_joined_new_records.woody_species AND module_id = vibi_fulcrum_woody_joined_new_records.module_number::integer
 	AND dbh_class = '25-<30cm') AND "25_30cm_count" IS NOT NULL),
 	
-ins10 AS (INSERT INTO plot_module_woody_raw (plot_no, module_id, species, dbh_class, dbh_class_index, count) SELECT plot_no, module_number::integer AS module_id,
+ins10 AS (INSERT INTO plot_module_woody_raw (plot_no, sub, module_id, species, dbh_class, dbh_class_index, count) SELECT plot_no, sub_or_super_sample::numeric, module_number::integer AS module_id,
 woody_species,
 
 CASE WHEN  '30_35cm_count' IS NOT NULL THEN '25-<30cm'
@@ -371,7 +418,7 @@ FROM vibi_fulcrum_woody_joined_new_records WHERE NOT EXISTS
 	SELECT 1 FROM plot_module_woody_raw WHERE plot_no = vibi_fulcrum_woody_joined_new_records.plot_no AND species = vibi_fulcrum_woody_joined_new_records.woody_species AND module_id = vibi_fulcrum_woody_joined_new_records.module_number::integer
 	AND dbh_class = '25-<30cm') AND "30_35cm_count" IS NOT NULL),
 	
-ins11 AS (INSERT INTO plot_module_woody_raw (plot_no, module_id, species, dbh_class, dbh_class_index, count) SELECT plot_no, module_number::integer AS module_id,
+ins11 AS (INSERT INTO plot_module_woody_raw (plot_no, sub, module_id, species, dbh_class, dbh_class_index, count) SELECT plot_no, sub_or_super_sample::numeric, module_number::integer AS module_id,
 woody_species,
 
 CASE WHEN  '35_40cm_count' IS NOT NULL THEN '35-<40cm'
@@ -389,7 +436,7 @@ FROM vibi_fulcrum_woody_joined_new_records WHERE NOT EXISTS
 	SELECT 1 FROM plot_module_woody_raw WHERE plot_no = vibi_fulcrum_woody_joined_new_records.plot_no AND species = vibi_fulcrum_woody_joined_new_records.woody_species AND module_id = vibi_fulcrum_woody_joined_new_records.module_number::integer
 	AND dbh_class = '35-<40cm') AND "35_40cm_count" IS NOT NULL),
 	
-ins12 AS (INSERT INTO plot_module_woody_raw (plot_no, module_id, species, dbh_class, dbh_class_index, count) SELECT plot_no, module_number::integer AS module_id,
+ins12 AS (INSERT INTO plot_module_woody_raw (plot_no, sub, module_id, species, dbh_class, dbh_class_index, count) SELECT plot_no, sub_or_super_sample::numeric, module_number::integer AS module_id,
 woody_species,
 
 CASE WHEN  '40cm_dbh1' IS NOT NULL THEN '>40cm'
@@ -407,7 +454,7 @@ FROM vibi_fulcrum_woody_joined_new_records WHERE NOT EXISTS
 	SELECT 1 FROM plot_module_woody_raw WHERE plot_no = vibi_fulcrum_woody_joined_new_records.plot_no AND species = vibi_fulcrum_woody_joined_new_records.woody_species AND module_id = vibi_fulcrum_woody_joined_new_records.module_number::integer
 	AND dbh_class = '>40cm') AND "40cm_dbh1" IS NOT NULL),
 	
-ins13 AS (INSERT INTO plot_module_woody_raw (plot_no, module_id, species, dbh_class, dbh_class_index, count) SELECT plot_no, module_number::integer AS module_id,
+ins13 AS (INSERT INTO plot_module_woody_raw (plot_no, sub, module_id, species, dbh_class, dbh_class_index, count) SELECT plot_no, sub_or_super_sample::numeric, module_number::integer AS module_id,
 woody_species,
 
 CASE WHEN  '40cm_dbh2' IS NOT NULL THEN '>40cm'
@@ -425,7 +472,7 @@ FROM vibi_fulcrum_woody_joined_new_records WHERE NOT EXISTS
 	SELECT 1 FROM plot_module_woody_raw WHERE plot_no = vibi_fulcrum_woody_joined_new_records.plot_no AND species = vibi_fulcrum_woody_joined_new_records.woody_species AND module_id = vibi_fulcrum_woody_joined_new_records.module_number::integer
 	AND dbh_class = '>40cm') AND "40cm_dbh2" IS NOT NULL),
 	
-ins14 AS (INSERT INTO plot_module_woody_raw (plot_no, module_id, species, dbh_class, dbh_class_index, count) SELECT plot_no, module_number::integer AS module_id,
+ins14 AS (INSERT INTO plot_module_woody_raw (plot_no, sub, module_id, species, dbh_class, dbh_class_index, count) SELECT plot_no, sub_or_super_sample::numeric, module_number::integer AS module_id,
 woody_species,
 
 CASE WHEN  '40cm_dbh3' IS NOT NULL THEN '>40cm'
@@ -443,7 +490,7 @@ FROM vibi_fulcrum_woody_joined_new_records WHERE NOT EXISTS
 	SELECT 1 FROM plot_module_woody_raw WHERE plot_no = vibi_fulcrum_woody_joined_new_records.plot_no AND species = vibi_fulcrum_woody_joined_new_records.woody_species AND module_id = vibi_fulcrum_woody_joined_new_records.module_number::integer
 	AND dbh_class = '>40cm') AND "40cm_dbh3" IS NOT NULL),
 	
-ins15 AS (INSERT INTO plot_module_woody_raw (plot_no, module_id, species, dbh_class, dbh_class_index, count) SELECT plot_no, module_number::integer AS module_id,
+ins15 AS (INSERT INTO plot_module_woody_raw (plot_no, sub, module_id, species, dbh_class, dbh_class_index, count) SELECT plot_no, sub_or_super_sample::numeric, module_number::integer AS module_id,
 woody_species,
 
 CASE WHEN  '40cm_dbh4' IS NOT NULL THEN '>40cm'
@@ -461,7 +508,7 @@ FROM vibi_fulcrum_woody_joined_new_records WHERE NOT EXISTS
 	SELECT 1 FROM plot_module_woody_raw WHERE plot_no = vibi_fulcrum_woody_joined_new_records.plot_no AND species = vibi_fulcrum_woody_joined_new_records.woody_species AND module_id = vibi_fulcrum_woody_joined_new_records.module_number::integer
 	AND dbh_class = '>40cm') AND "40cm_dbh4" IS NOT NULL),
 	
-ins16 AS (INSERT INTO plot_module_woody_raw (plot_no, module_id, species, dbh_class, dbh_class_index, count) SELECT plot_no, module_number::integer AS module_id,
+ins16 AS (INSERT INTO plot_module_woody_raw (plot_no, sub, module_id, species, dbh_class, dbh_class_index, count) SELECT plot_no, sub_or_super_sample::numeric, module_number::integer AS module_id,
 woody_species,
 
 CASE WHEN  '40cm_dbh5' IS NOT NULL THEN '>40cm'
@@ -480,12 +527,13 @@ FROM vibi_fulcrum_woody_joined_new_records WHERE NOT EXISTS
 	AND dbh_class = '>40cm') AND "40cm_dbh5" IS NOT NULL)
 	
 INSERT INTO fds2_species_misc_info (species, plot_no, module_id, voucher_no, comment, browse_intensity, percent_flowering, percent_fruiting) SELECT woody_species, plot_no,
-module_number::integer, voucher_number, comment, deer_browse_intensity, _flowering, _fruiting
+module_number::integer, voucher_number, comment, count_of_browsed_individuals, _flowering, _fruiting
 
 FROM vibi_fulcrum_woody_joined_new_records WHERE NOT EXISTS
 (
 	SELECT 1 FROM fds2_species_misc_info WHERE plot_no = vibi_fulcrum_woody_joined_new_records.plot_no
-	) AND voucher_number IS NOT NULL OR comment IS NOT NULL OR deer_browse_intensity IS NOT NULL OR _flowering IS NOT NULL OR _fruiting IS NOT NULL GROUP BY plot_no, woody_species, module_number, voucher_number, comment, deer_browse_intensity, _flowering, _fruiting
+	) AND voucher_number IS NOT NULL OR comment IS NOT NULL OR count_of_browsed_individuals IS NOT NULL OR _flowering IS NOT NULL OR _fruiting IS NOT NULL GROUP BY plot_no, woody_species, module_number, voucher_number, comment, count_of_browsed_individuals, _flowering, _fruiting
+	
 	
 ;
 
@@ -497,4 +545,4 @@ END $BODY$
 ALTER FUNCTION vibi_woody_modules_insert()
   OWNER TO postgres;
   
-  CREATE TRIGGER vibi_woody_modules_insert_trigger AFTER INSERT ON vibi_woody FOR EACH STATEMENT EXECUTE PROCEDURE vibi_woody_modules_insert();        
+  CREATE TRIGGER vibi_woody_modules_insert_trigger AFTER INSERT ON vibi_woody FOR EACH STATEMENT EXECUTE PROCEDURE vibi_woody_modules_insert();          
