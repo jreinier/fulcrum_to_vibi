@@ -2,6 +2,10 @@ DROP TABLE IF EXISTS vibi_intensive CASCADE;
 DROP TABLE IF EXISTS vibi_intensive_herbaceous_intensive CASCADE;
 DROP TABLE IF EXISTS vibi_intensive_herbaceous_intensive_herbaceous_species_list CASCADE;
 DROP TABLE IF EXISTS vibi_intensive_photos CASCADE;
+DROP TABLE IF EXISTS vibi_physical CASCADE;
+DROP TABLE IF EXISTS vibi_physical_intensive_modules CASCADE;
+DROP TABLE IF EXISTS vibi_physical_soil_layers CASCADE;
+DROP TABLE IF EXISTS vibi_physical_soil_layers_redox_features CASCADE;
 DROP TABLE IF EXISTS vibi_woody CASCADE;
 DROP TABLE IF EXISTS vibi_woody_woody_species_list CASCADE;
 DROP TABLE IF EXISTS vibi_woody_woody_species_list_module_and_count CASCADE;
@@ -52,16 +56,12 @@ CREATE TABLE IF NOT EXISTS "vibi_intensive" (
   "total_modules" text,
   "intensive_modules" text,
   "plot_configuration" text,
+  "plot_configuration_other" text,
   "plot_size_area_in_hectares" text,
-  "estimate_of_per_open_water_entire_site" text,
-  "estimate_of_perunvegetated_ow_entire_site" text,
-  "estimate_per_invasives_entire_site" text,
   "centerline" text,
-  "oneo_plant" text,
   "vegclass" text,
   "vegsubclass" text,
-  "twoo_plant" text,
-  "oneo_class_code_mod_natureserve" text,
+  "leap_habitat_classification" text,
   "cowardin_classification" text,
   "cowardin_water_regime" text,
   "cowardin_special_modifier" text,
@@ -72,11 +72,15 @@ CREATE TABLE IF NOT EXISTS "vibi_intensive" (
   "llww_modifiers" text,
   "llww_modifiers_other" text,
   "landform_type" text,
+  "landform_type_other" text,
   "homogeneity" text,
   "stand_size" text,
   "drainage" text,
   "salinity" text,
   "hydrologic_regime" text,
+  "estimate_of_per_open_water_entire_site" text,
+  "estimate_of_per_unvegetated_ow_entire_site" text,
+  "estimate_per_invasives_entire_site" text,
   "oneo_disturbance_type" text,
   "oneo_disturbance_severity" text,
   "oneo_disturbance_years_ago" text,
@@ -115,7 +119,10 @@ CREATE TABLE IF NOT EXISTS "vibi_intensive_herbaceous_intensive" (
   "bare_ground_cover" text,
   "litter_cover" text,
   "open_water_cover" text,
-  "unvegetated_open_water_cover" text
+  "unvegetated_open_water_cover" text,
+  "exposed_bedrock_cover" text,
+  "boulder_cover" text,
+  "cobblegravel_cover" text
 );
 
 
@@ -133,10 +140,10 @@ CREATE TABLE IF NOT EXISTS "vibi_intensive_herbaceous_intensive_herbaceous_speci
   "created_by" text,
   "updated_by" text,
   "herbaceous_species" text,
-  "corner_1_depth" text,
+  "corner_4_depth" text,
   "corner_2_depth" text,
   "corner_3_depth" text,
-  "corner_4_depth" text,
+  "corner_1_depth" text,
   "cover_code" text,
   "voucher_number" text,
   "comment" text,
@@ -177,6 +184,118 @@ CREATE TABLE IF NOT EXISTS "vibi_intensive_photos" (
   "exif_software" text,
   "exif_x_resolution" text,
   "exif_y_resolution" text
+);
+
+
+CREATE TABLE IF NOT EXISTS "vibi_physical" (
+  "fulcrum_id" character varying(100),
+  "created_at" timestamp without time zone,
+  "updated_at" timestamp without time zone,
+  "created_by" text,
+  "updated_by" text,
+  "system_created_at" timestamp without time zone,
+  "system_updated_at" timestamp without time zone,
+  "version" bigint,
+  "status" text,
+  "project" text,
+  "assigned_to" text,
+  "latitude" double precision,
+  "longitude" double precision,
+  "geometry" geometry(Point, 4326),
+  "plot_no" text,
+  "apt_cover" text,
+  "bridal_trail_cover" text,
+  "hiking_trail_cover" text,
+  "bootleg_trail_cover" text,
+  "deer_trail_cover" text,
+  "gravel_trail_cover" text,
+  "soil_sample_depth_inches" text,
+  "stand_size" text
+);
+
+
+
+CREATE TABLE IF NOT EXISTS "vibi_physical_intensive_modules" (
+  "fulcrum_id" character varying(100),
+  "fulcrum_parent_id" text,
+  "fulcrum_record_id" text,
+  "version" bigint,
+  "latitude" double precision,
+  "longitude" double precision,
+  "geometry" geometry(Point, 4326),
+  "created_at" timestamp without time zone,
+  "updated_at" timestamp without time zone,
+  "created_by" text,
+  "updated_by" text,
+  "module_number" text,
+  "tussock_corner_1_count" text,
+  "tussock_corner_2_count" text,
+  "tussock_corner_3_count" text,
+  "tussock_corner_4_count" text,
+  "hummocks_corner_1_count" text,
+  "hummocks_corner_2_count" text,
+  "hummocks_corner_3_count" text,
+  "hummocks_corner_4_count" text,
+  "macro_depression_count" text,
+  "tip_up_count" text,
+  "cwd_2to12cm_count" text,
+  "cwd_12to40cm_count" text,
+  "cwd_greater_than_40cm_count" text,
+  "micro_interspersion_rank" text,
+  "microhabitat_interspersion_slope_rank" text,
+  "litter_depth_cm" text,
+  "litter_organic_layer_depth_cm" text,
+  "depth_to_saturated_soil_cm" text,
+  "standing_water_depth_cm" text,
+  "crown_cover_dot_count_north" text,
+  "crown_cover_dot_count_south" text,
+  "crown_cover_dot_count_east" text,
+  "crown_cover_dot_count_west" text
+);
+
+
+
+CREATE TABLE IF NOT EXISTS "vibi_physical_soil_layers" (
+  "fulcrum_id" character varying(100),
+  "fulcrum_parent_id" text,
+  "fulcrum_record_id" text,
+  "version" bigint,
+  "latitude" double precision,
+  "longitude" double precision,
+  "geometry" geometry(Point, 4326),
+  "created_at" timestamp without time zone,
+  "updated_at" timestamp without time zone,
+  "created_by" text,
+  "updated_by" text,
+  "depth_to_layer_cm" text,
+  "matrix_hue" text,
+  "matrix_value" text,
+  "matrix_chroma" text,
+  "matrix_percent" text,
+  "soil_texture" text,
+  "remarks" text
+);
+
+
+
+CREATE TABLE IF NOT EXISTS "vibi_physical_soil_layers_redox_features" (
+  "fulcrum_id" character varying(100),
+  "fulcrum_parent_id" text,
+  "fulcrum_record_id" text,
+  "version" bigint,
+  "latitude" double precision,
+  "longitude" double precision,
+  "geometry" geometry(Point, 4326),
+  "created_at" timestamp without time zone,
+  "updated_at" timestamp without time zone,
+  "created_by" text,
+  "updated_by" text,
+  "redox_hue" text,
+  "redox_value" text,
+  "redox_chroma" text,
+  "redox_percent" text,
+  "redox_type" text,
+  "redox_location" text
 );
 
 
@@ -230,6 +349,7 @@ CREATE TABLE IF NOT EXISTS "vibi_woody_woody_species_list_module_and_count" (
   "created_by" text,
   "updated_by" text,
   "module_number" text,
+  "sub_or_super_sample" text,
   "shrub_clump_count" text,
   "0_1cm_count" text,
   "1_25cm_count" text,
@@ -248,7 +368,7 @@ CREATE TABLE IF NOT EXISTS "vibi_woody_woody_species_list_module_and_count" (
   "40cm_dbh5" text,
   "voucher_number" text,
   "comment" text,
-  "deer_browse_intensity" text,
+  "count_of_browsed_individuals" text,
   "_flowering" text,
   "_fruiting" text
 );
@@ -264,7 +384,7 @@ LEFT JOIN vibi_woody_woody_species_list b ON b.fulcrum_id = a.fulcrum_parent_id
 LEFT JOIN  vibi_woody c ON c.fulcrum_id = a.fulcrum_record_id;
 
 
-CREATE OR REPLACE VIEW vibi_fulcrum_soil_joined  AS SELECT  c.plot_no, c.sample_depth_inches, b.depth_to_layer_cm, b.matrix_hue, b.matrix_value, b.matrix_chroma, a.redox_hue, a.redox_value, a.redox_chroma, a.redox_percent, a.redox_type, a.redox_location, b.soil_texture, b.remarks, a.fulcrum_id, a.fulcrum_parent_id, a.fulcrum_record_id, a.version, a.latitude, a.longitude, a.geometry, a.created_at, a.updated_at, a.created_by, a.updated_by FROM
+CREATE OR REPLACE VIEW vibi_fulcrum_soil_joined  AS SELECT  c.plot_no, c.soil_sample_depth_inches, b.depth_to_layer_cm, b.matrix_hue, b.matrix_value, b.matrix_chroma, a.redox_hue, a.redox_value, a.redox_chroma, a.redox_percent, a.redox_type, a.redox_location, b.soil_texture, b.remarks, a.fulcrum_id, a.fulcrum_parent_id, a.fulcrum_record_id, a.version, a.latitude, a.longitude, a.geometry, a.created_at, a.updated_at, a.created_by, a.updated_by FROM
 vibi_physical_soil_layers_redox_features a
 LEFT JOIN vibi_physical_soil_layers b ON b.fulcrum_id = a.fulcrum_parent_id
 LEFT JOIN vibi_physical c ON c.fulcrum_id = a.fulcrum_record_id;      
