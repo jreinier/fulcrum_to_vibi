@@ -58,7 +58,6 @@ CREATE TABLE IF NOT EXISTS "vibi_intensive" (
   "plot_configuration" text,
   "plot_configuration_other" text,
   "plot_size_area_in_hectares" text,
-  "centerline" text,
   "vegclass" text,
   "vegsubclass" text,
   "leap_habitat_classification" text,
