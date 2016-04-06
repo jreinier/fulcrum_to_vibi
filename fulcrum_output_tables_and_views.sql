@@ -74,7 +74,6 @@ CREATE TABLE IF NOT EXISTS "vibi_intensive" (
   "landform_type" text,
   "landform_type_other" text,
   "homogeneity" text,
-  "stand_size" text,
   "drainage" text,
   "salinity" text,
   "hydrologic_regime" text,
