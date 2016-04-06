@@ -196,6 +196,7 @@ CREATE TABLE IF NOT EXISTS "vibi_physical" (
   "longitude" double precision,
   "geometry" geometry(Point, 4326),
   "plot_no" text,
+  "date" text,
   "apt_cover" text,
   "bridal_trail_cover" text,
   "hiking_trail_cover" text,
@@ -307,7 +308,8 @@ CREATE TABLE IF NOT EXISTS "vibi_woody" (
   "latitude" double precision,
   "longitude" double precision,
   "geometry" geometry(Point, 4326),
-  "plot_no" text
+  "plot_no" text,
+  "date" text
 );
 
 
