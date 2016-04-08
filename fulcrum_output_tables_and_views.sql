@@ -9,6 +9,7 @@ DROP TABLE IF EXISTS vibi_physical_soil_layers_redox_features CASCADE;
 DROP TABLE IF EXISTS vibi_woody CASCADE;
 DROP TABLE IF EXISTS vibi_woody_woody_species_list CASCADE;
 DROP TABLE IF EXISTS vibi_woody_woody_species_list_module_and_count CASCADE;
+DROP TABLE IF EXISTS vibi_woody_woody_species_list_module_and_count_ash_individual CASCADE;
 
 
 CREATE EXTENSION IF NOT EXISTS postgis;
@@ -366,6 +367,29 @@ CREATE TABLE IF NOT EXISTS "vibi_woody_woody_species_list_module_and_count" (
   "count_of_browsed_individuals" text,
   "_flowering" text,
   "_fruiting" text
+);
+
+CREATE TABLE IF NOT EXISTS "vibi_woody_woody_species_list_module_and_count_ash_individual" (
+  "fulcrum_id" character varying(100),
+  "fulcrum_parent_id" text,
+  "fulcrum_record_id" text,
+  "version" bigint,
+  "latitude" double precision,
+  "longitude" double precision,
+  "geometry" geometry(Point, 4326),
+  "created_at" timestamp without time zone,
+  "updated_at" timestamp without time zone,
+  "created_by" text,
+  "updated_by" text,
+  "ash_tree_id" text,
+  "ash_dbh_cm" text,
+  "ash_height_at_dbh" text,
+  "ash_condition" text,
+  "ash_dead_condition" text,
+  "eab_exit_hole_count" text,
+  "epicormic_present" text,
+  "woodpecker_holes_present" text,
+  "ash_voucher_number" text
 );
 
 
