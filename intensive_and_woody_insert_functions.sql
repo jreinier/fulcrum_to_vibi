@@ -1,6 +1,8 @@
 DROP SEQUENCE IF EXISTS vibi_fid_test_seq;
 DROP SEQUENCE IF EXISTS vibi_ground_cover_fid_test_seq;
 DROP SEQUENCE IF EXISTS vibi_woody_fid_test_seq;
+DROP SEQUENCE IF EXISTS fds1_species_misc_info_seq;
+DROP SEQUENCE IF EXISTS fds2_species_misc_info_seq
 
 DROP TRIGGER IF EXISTS vibi_plot_info_insert_trigger ON vibi_intensive;
 DROP TRIGGER IF EXISTS vibi_herb_modules_insert_trigger ON plot;
@@ -10,17 +12,31 @@ CREATE SEQUENCE vibi_fid_test_seq
   INCREMENT 1
   MINVALUE 1
   MAXVALUE 9223372036854775807
-  START 204
+  START 1
   CACHE 1;
   
  CREATE SEQUENCE vibi_ground_cover_fid_test_seq
   INCREMENT 1
   MINVALUE 1
   MAXVALUE 9223372036854775807
-  START 11
+  START 1
   CACHE 1;
   
   CREATE SEQUENCE vibi_woody_fid_test_seq
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+  START 1
+  CACHE 1;
+  
+  CREATE SEQUENCE fds1_species_misc_info_seq
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+  START 1
+  CACHE 1;
+  
+  CREATE SEQUENCE fds2_species_misc_info_seq
   INCREMENT 1
   MINVALUE 1
   MAXVALUE 9223372036854775807
@@ -30,6 +46,8 @@ CREATE SEQUENCE vibi_fid_test_seq
 ALTER TABLE plot_module_herbaceous ALTER COLUMN fid SET DEFAULT to_char(nextval('vibi_fid_test_seq'::regclass),'"vibi"fm000000');
 ALTER TABLE plot_module_herbaceous_info ALTER COLUMN fid SET DEFAULT to_char(nextval('vibi_ground_cover_fid_test_seq'::regclass),'"vibi"fm000000');
 ALTER TABLE plot_module_woody_raw ALTER COLUMN fid SET DEFAULT to_char(nextval('vibi_woody_fid_test_seq'::regclass),'"woody"fm000000');
+ALTER TABLE fds1_species_misc_info ALTER COLUMN fid SET DEFAULT to_char(nextval('fds1_species_misc_info_seq'::regclass),'"fds1misc"fm000000');
+ALTER TABLE fds2_species_misc_info ALTER COLUMN fid SET DEFAULT to_char(nextval('fds2_species_misc_info_seq'::regclass),'"fds2misc"fm000000');
 
 CREATE OR REPLACE FUNCTION vibi_plot_info_insert()
   RETURNS trigger AS
