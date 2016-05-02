@@ -2,7 +2,7 @@ DROP SEQUENCE IF EXISTS vibi_fid_test_seq;
 DROP SEQUENCE IF EXISTS vibi_ground_cover_fid_test_seq;
 DROP SEQUENCE IF EXISTS vibi_woody_fid_test_seq;
 DROP SEQUENCE IF EXISTS fds1_species_misc_info_seq;
-DROP SEQUENCE IF EXISTS fds2_species_misc_info_seq
+DROP SEQUENCE IF EXISTS fds2_species_misc_info_seq;
 
 DROP TRIGGER IF EXISTS vibi_plot_info_insert_trigger ON vibi_intensive;
 DROP TRIGGER IF EXISTS vibi_herb_modules_insert_trigger ON plot;
