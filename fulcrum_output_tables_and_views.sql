@@ -330,8 +330,6 @@ CREATE TABLE IF NOT EXISTS "vibi_woody_woody_species_list" (
   "woody_species" text
 );
 
-
-
 CREATE TABLE IF NOT EXISTS "vibi_woody_woody_species_list_module_and_count" (
   "fulcrum_id" character varying(100),
   "fulcrum_parent_id" text,
@@ -348,16 +346,27 @@ CREATE TABLE IF NOT EXISTS "vibi_woody_woody_species_list_module_and_count" (
   "intensive_yes_no" text,
   "sub_or_super_sample" text,
   "shrub_clump_count" text,
+  "shrub_clump_1" text,
   "0_1cm_count" text,
+  "0_1cm_count_1" text,
   "1_25cm_count" text,
+  "1_25cm_count_1" text,
   "25_5cm_count" text,
+  "25_5cm_count_1" text,
   "5_10cm_count" text,
+  "5_10cm_count_1" text,
   "10_15cm_count" text,
+  "10_15cm_count_1" text,
   "15_20cm_count" text,
+  "15_20cm_count_1" text,
   "20_25cm_count" text,
+  "20_25cm_count_1" text,
   "25_30cm_count" text,
+  "25_30cm_count_1" text,
   "30_35cm_count" text,
+  "30_35cm_count_1" text,
   "35_40cm_count" text,
+  "35_40cm_count_1" text,
   "40cm_dbh1" text,
   "40cm_dbh2" text,
   "40cm_dbh3" text,
