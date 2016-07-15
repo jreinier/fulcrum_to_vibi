@@ -243,10 +243,12 @@ CREATE TABLE IF NOT EXISTS "vibi_physical_intensive_modules" (
   "litter_organic_layer_depth_cm" text,
   "depth_to_saturated_soil_cm" text,
   "standing_water_depth_cm" text,
+  "soil_surface_comments" text,
   "crown_cover_dot_count_north" text,
   "crown_cover_dot_count_south" text,
   "crown_cover_dot_count_east" text,
-  "crown_cover_dot_count_west" text
+  "crown_cover_dot_count_west" text,
+  "canopy_cover" text
 );
 
 
