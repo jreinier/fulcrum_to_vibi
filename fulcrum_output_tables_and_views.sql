@@ -116,7 +116,8 @@ CREATE TABLE IF NOT EXISTS "vibi_intensive_herbaceous_intensive" (
   "unvegetated_open_water_cover" text,
   "exposed_bedrock_cover" text,
   "boulder_cover" text,
-  "cobblegravel_cover" text
+  "cobblegravel_cover" text,
+  "comments_on_intensive_module" text
 );
 
 
