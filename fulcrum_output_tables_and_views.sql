@@ -14,149 +14,138 @@ DROP TABLE IF EXISTS vibi_woody_woody_species_list_module_and_count_ash_individu
 
 CREATE EXTENSION IF NOT EXISTS postgis;
 
-CREATE TABLE vibi.vibi_intensive
-(
-  fulcrum_id character varying(100) NOT NULL,
-  created_at timestamp without time zone,
-  updated_at timestamp without time zone,
-  created_by text,
-  updated_by text,
-  system_created_at timestamp without time zone,
-  system_updated_at timestamp without time zone,
-  version bigint,
-  status text,
-  project text,
-  assigned_to text,
-  latitude double precision,
-  longitude double precision,
-  geometry geometry(Point,4326),
-  plot_no text,
-  project_name text,
-  project_name_other text,
-  plot_name text,
-  project_label text,
-  project_label_other text,
-  monitoring_event text,
-  monitoring_event_other text,
-  date text,
+CREATE TABLE IF NOT EXISTS "vibi_intensive" (
+  "fulcrum_id" character varying(100),
+  "created_at" timestamp without time zone,
+  "updated_at" timestamp without time zone,
+  "created_by" text,
+  "updated_by" text,
+  "system_created_at" timestamp without time zone,
+  "system_updated_at" timestamp without time zone,
+  "version" bigint,
+  "status" text,
+  "project" text,
+  "assigned_to" text,
+  "latitude" double precision,
+  "longitude" double precision,
+  "geometry" geometry(Point, 4326),
+  "plot_key" text,
+  "plot_no" text,
+  "project_name" text,
+  "project_name_other" text,
+  "plot_name" text,
+  "project_label" text,
+  "project_label_other" text,
+  "monitoring_event" text,
+  "monitoring_event_other" text,
+  "date" text,
   "time" text,
-  party text,
-  plot_not_sampled text,
-  commentplot_not_sampled text,
-  sampling_quality text,
-  state text,
-  county text,
-  quadrangle text,
-  local_place_name text,
-  landowner text,
-  xaxis_bearing_of_plot text,
-  enter_gps_location_in_plot text,
-  latitude_1 text,
-  longitude_1 text,
-  plot_placement text,
-  plot_placement_other text,
-  total_modules text,
-  intensive_modules text,
-  plot_configuration text,
-  plot_configuration_other text,
-  plot_size_area_in_hectares text,
-  vegclass text,
-  vegsubclass text,
-  leap_habitat_classification text,
-  cowardin_classification text,
-  cowardin_water_regime text,
-  cowardin_special_modifier text,
-  cowardin_special_modifier_other text,
-  landscape_position text,
-  inland_landform text,
-  water_flow_path text,
-  llww_modifiers text,
-  llww_modifiers_other text,
-  homogeneity text,
-  drainage text,
-  salinity text,
-  hydrologic_regime text,
-  oneo_disturbance_type text,
-  oneo_disturbance_severity text,
-  oneo_disturbance_years_ago text,
-  oneo_distubance_per_of_plot text,
-  oneo_disturbance_description text,
-  twoo_disturbance_type text,
-  twoo_disturbance_severity text,
-  twoo_disturbance_years_ago text,
-  twoo_distubance_per_of_plot text,
-  twoo_disturbance_description text,
-  threeo_disturbance_type text,
-  threeo_disturbance_severity text,
-  threeo_disturbance_years_ago text,
-  threeo_distubance_per_of_plot text,
-  threeo_disturbance_description text,
-  photos text,
-  photos_caption text,
-  photos_url text,
-  CONSTRAINT vibi_intensive_pkey PRIMARY KEY (fulcrum_id)
+  "party" text,
+  "plot_not_sampled" text,
+  "commentplot_not_sampled" text,
+  "sampling_quality" text,
+  "state" text,
+  "county" text,
+  "quadrangle" text,
+  "local_place_name" text,
+  "landowner" text,
+  "xaxis_bearing_of_plot" text,
+  "enter_gps_location_in_plot" text,
+  "latitude_1" text,
+  "longitude_1" text,
+  "plot_placement" text,
+  "plot_placement_other" text,
+  "total_modules" text,
+  "intensive_modules" text,
+  "plot_configuration" text,
+  "plot_configuration_other" text,
+  "plot_size_area_in_hectares" text,
+  "vegclass" text,
+  "vegsubclass" text,
+  "leap_habitat_classification" text,
+  "cowardin_classification" text,
+  "cowardin_water_regime" text,
+  "cowardin_special_modifier" text,
+  "cowardin_special_modifier_other" text,
+  "landscape_position" text,
+  "inland_landform" text,
+  "water_flow_path" text,
+  "llww_modifiers" text,
+  "llww_modifiers_other" text,
+  "homogeneity" text,
+  "drainage" text,
+  "salinity" text,
+  "hydrologic_regime" text,
+  "oneo_disturbance_type" text,
+  "oneo_disturbance_severity" text,
+  "oneo_disturbance_years_ago" text,
+  "oneo_distubance_per_of_plot" text,
+  "oneo_disturbance_description" text,
+  "twoo_disturbance_type" text,
+  "twoo_disturbance_severity" text,
+  "twoo_disturbance_years_ago" text,
+  "twoo_distubance_per_of_plot" text,
+  "twoo_disturbance_description" text,
+  "threeo_disturbance_type" text,
+  "threeo_disturbance_severity" text,
+  "threeo_disturbance_years_ago" text,
+  "threeo_distubance_per_of_plot" text,
+  "threeo_disturbance_description" text,
+  "photos" text,
+  "photos_caption" text,
+  "photos_url" text
 );
 
 
 
-CREATE TABLE vibi.vibi_intensive_herbaceous_intensive
-(
-  fulcrum_id character varying(100) NOT NULL,
-  fulcrum_parent_id text,
-  fulcrum_record_id text,
-  version bigint,
-  latitude double precision,
-  longitude double precision,
-  geometry geometry(Point,4326),
-  created_at timestamp without time zone,
-  updated_at timestamp without time zone,
-  created_by text,
-  updated_by text,
-  herbaceous_module text,
-  bare_ground_cover text,
-  litter_cover text,
-  open_water_cover text,
-  unvegetated_open_water_cover text,
-  exposed_bedrock_cover text,
-  boulder_cover text,
-  cobblegravel_cover text,
-  comments_on_intensive_module text,
-  CONSTRAINT vibi_intensive_herbaceous_intensive_pkey PRIMARY KEY (fulcrum_id),
-  CONSTRAINT vibi_intensive_fkey FOREIGN KEY (fulcrum_parent_id)
-      REFERENCES vibi.vibi_intensive (fulcrum_id) MATCH SIMPLE
-      ON UPDATE CASCADE ON DELETE CASCADE
+CREATE TABLE IF NOT EXISTS "vibi_intensive_herbaceous_intensive" (
+  "fulcrum_id" character varying(100),
+  "fulcrum_parent_id" text,
+  "fulcrum_record_id" text,
+  "version" bigint,
+  "latitude" double precision,
+  "longitude" double precision,
+  "geometry" geometry(Point, 4326),
+  "created_at" timestamp without time zone,
+  "updated_at" timestamp without time zone,
+  "created_by" text,
+  "updated_by" text,
+  "herbaceous_module" text,
+  "bare_ground_cover" text,
+  "litter_cover" text,
+  "open_water_cover" text,
+  "unvegetated_open_water_cover" text,
+  "exposed_bedrock_cover" text,
+  "boulder_cover" text,
+  "cobblegravel_cover" text,
+  "comments_on_intensive_module" text
 );
 
 
 
-CREATE TABLE vibi.vibi_intensive_herbaceous_intensive_herbaceous_species_list
-(
-  fulcrum_id character varying(100) NOT NULL,
-  fulcrum_parent_id text,
-  fulcrum_record_id text,
-  version bigint,
-  latitude double precision,
-  longitude double precision,
-  geometry geometry(Point,4326),
-  created_at timestamp without time zone,
-  updated_at timestamp without time zone,
-  created_by text,
-  updated_by text,
-  herbaceous_species text,
-  corner_4_depth text,
-  corner_2_depth text,
-  corner_3_depth text,
-  corner_1_depth text,
-  cover_code text,
-  voucher_number text,
-  comment text,
-  deer_browse_intensity text,
-  _flowering text,
-  _fruiting text,
-  CONSTRAINT vibi_intensive_species_pkey PRIMARY KEY (fulcrum_id),
-  CONSTRAINT vibi_intensive_fkey FOREIGN KEY (fulcrum_record_id)
-      REFERENCES vibi.vibi_intensive (fulcrum_id) MATCH SIMPLE
-      ON UPDATE CASCADE ON DELETE CASCADE
+CREATE TABLE IF NOT EXISTS "vibi_intensive_herbaceous_intensive_herbaceous_species_list" (
+  "fulcrum_id" character varying(100),
+  "fulcrum_parent_id" text,
+  "fulcrum_record_id" text,
+  "version" bigint,
+  "latitude" double precision,
+  "longitude" double precision,
+  "geometry" geometry(Point, 4326),
+  "created_at" timestamp without time zone,
+  "updated_at" timestamp without time zone,
+  "created_by" text,
+  "updated_by" text,
+  "herbaceous_species" text,
+  "corner_4_depth" text,
+  "corner_2_depth" text,
+  "corner_3_depth" text,
+  "corner_1_depth" text,
+  "cover_code" text,
+  "deer_browse_intensity" text,
+  "_flowering" text,
+  "_fruiting" text,
+  "voucher_number" text,
+  "comment" text
 );
 
 
@@ -210,6 +199,8 @@ CREATE TABLE IF NOT EXISTS "vibi_physical" (
   "longitude" double precision,
   "geometry" geometry(Point, 4326),
   "plot_no" text,
+  "link_to_intensive" text,
+  "plot_key" text,
   "date" text,
   "apt_cover" text,
   "bridal_trail_cover" text,
@@ -325,6 +316,8 @@ CREATE TABLE IF NOT EXISTS "vibi_woody" (
   "longitude" double precision,
   "geometry" geometry(Point, 4326),
   "plot_no" text,
+  "link_to_intensive" text,
+  "plot_key" text,
   "date" text
 );
 
@@ -344,6 +337,8 @@ CREATE TABLE IF NOT EXISTS "vibi_woody_woody_species_list" (
   "updated_by" text,
   "woody_species" text
 );
+
+
 
 CREATE TABLE IF NOT EXISTS "vibi_woody_woody_species_list_module_and_count" (
   "fulcrum_id" character varying(100),
@@ -394,6 +389,8 @@ CREATE TABLE IF NOT EXISTS "vibi_woody_woody_species_list_module_and_count" (
   "comment" text
 );
 
+
+
 CREATE TABLE IF NOT EXISTS "vibi_woody_woody_species_list_module_and_count_ash_individual" (
   "fulcrum_id" character varying(100),
   "fulcrum_parent_id" text,
@@ -418,17 +415,18 @@ CREATE TABLE IF NOT EXISTS "vibi_woody_woody_species_list_module_and_count_ash_i
 );
 
 
-CREATE OR REPLACE VIEW vibi_fulcrum_joined  AS SELECT a.*, b.herbaceous_module, b.bare_ground_cover, b.litter_cover, b.open_water_cover, unvegetated_open_water_cover, c.plot_no FROM vibi_intensive_herbaceous_intensive_herbaceous_species_list a 
+CREATE OR REPLACE VIEW vibi_fulcrum_joined  AS SELECT a.*, b.herbaceous_module, b.bare_ground_cover, b.litter_cover, b.open_water_cover, unvegetated_open_water_cover, c.plot_no, c.plot_key AS plot_id FROM vibi_intensive_herbaceous_intensive_herbaceous_species_list a 
 LEFT JOIN vibi_intensive_herbaceous_intensive b ON b.fulcrum_id = a.fulcrum_parent_id
 LEFT JOIN  vibi_intensive c ON c.fulcrum_id = a.fulcrum_record_id; 
 
 
-CREATE OR REPLACE VIEW vibi_fulcrum_woody_joined  AS SELECT a.*, b.woody_species, c.plot_no FROM vibi_woody_woody_species_list_module_and_count a 
+CREATE OR REPLACE VIEW vibi_fulcrum_woody_joined  AS SELECT a.*, b.woody_species, c.plot_no, c.plot_key AS plot_id FROM vibi_woody_woody_species_list_module_and_count a 
 LEFT JOIN vibi_woody_woody_species_list b ON b.fulcrum_id = a.fulcrum_parent_id
 LEFT JOIN  vibi_woody c ON c.fulcrum_id = a.fulcrum_record_id;
 
 
-CREATE OR REPLACE VIEW vibi_fulcrum_soil_joined  AS SELECT  c.plot_no, c.soil_sample_depth_inches, b.depth_to_layer_cm, b.matrix_hue, b.matrix_value, b.matrix_chroma, a.redox_hue, a.redox_value, a.redox_chroma, a.redox_percent, a.redox_type, a.redox_location, b.soil_texture, b.remarks, a.fulcrum_id, a.fulcrum_parent_id, a.fulcrum_record_id, a.version, a.latitude, a.longitude, a.geometry, a.created_at, a.updated_at, a.created_by, a.updated_by FROM
+CREATE OR REPLACE VIEW vibi_fulcrum_soil_joined  AS SELECT  c.plot_no, c.plot_key AS plot_id, c.soil_sample_depth_inches, b.depth_to_layer_cm, b.matrix_hue, b.matrix_value, b.matrix_chroma, a.redox_hue, a.redox_value, a.redox_chroma, a.redox_percent, a.redox_type, a.redox_location, b.soil_texture, b.remarks, a.fulcrum_id, a.fulcrum_parent_id, a.fulcrum_record_id, a.version, a.latitude, a.longitude, a.geometry, a.created_at, a.updated_at, a.created_by, a.updated_by FROM
 vibi_physical_soil_layers_redox_features a
 LEFT JOIN vibi_physical_soil_layers b ON b.fulcrum_id = a.fulcrum_parent_id
 LEFT JOIN vibi_physical c ON c.fulcrum_id = a.fulcrum_record_id;
+
